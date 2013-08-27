@@ -3,7 +3,8 @@ require.config({
 	paths: {
 		loaderTmpl : 'scripts/jquery.loadTemplate-1.0.0',
 		bootstrap :  'scripts/bootstrap',
-		grid : "components/Grid"
+		grid : "components/Grid",
+		dialog : "components/Dialog"
 	},
 });
 

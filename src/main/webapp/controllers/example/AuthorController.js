@@ -1,7 +1,21 @@
-define (["modules/example/AuthorForm"],
-function (authorForm){
+define (["modules/example/AuthorForm", "modules/example/AuthorGrid"],
+function (authorForm, authorGrid){
 	function load () {
-		authorForm.doTheThings()
+		$("#body").load("controllers/example/templates/AuthorControllerLayout.html", onFinishLoad)
+	}
+	
+	function onFinishLoad () {
+		authorGrid.create("gridContainer")
+		authorGrid.loadData()
+		bindEvents()
+	}
+	
+	function bindEvents () {
+		$("#btnOpenModal").click(openModal)
+	}
+	
+	function openModal () {
+		authorForm.openDialog ()
 	}
 
 	return {
