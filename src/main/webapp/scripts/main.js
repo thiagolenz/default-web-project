@@ -1,15 +1,16 @@
 require.config({
 	baseUrl: '.',
 	paths: {
-		loaderTmpl : 'scripts/jquery.loadTemplate-1.0.0',
 		bootstrap :  'scripts/bootstrap',
+		datePicker : "scripts/bootstrap-datepicker",
 		grid : "components/Grid",
-		dialog : "components/Dialog"
+		dialog : "components/Dialog",
+		service : "components/Service",
 	},
 });
 
 
-define(["loaderTmpl","controllers/example/AuthorController", "bootstrap"], function(loader, author) {
+define(["controllers/example/AuthorController", "bootstrap", "datePicker"], function(author) {
 	$(document).ready(function() {
 		author.load()
 	}) 

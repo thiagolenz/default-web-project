@@ -1,15 +1,25 @@
-define (["grid"], function (grid, dialog){
+define (["grid", "service"], function (grid, service){
 	function create (placeAt) {
 		grid.create ({
 			idTable : "myTable",
 			placeAt: placeAt,
-			columns : [{label:"teste", width: 100, field : "test"}, {label: "other", width: 200, field: "other"}]
+			columns : [{label:"Name", width: 250, field : "name"}, 
+			           {label: "High", width: 50, field: "high"},
+			           {label: "Birth Day", width: 100, field: "birthDay"}]
 		})
 	}
 	
 	function loadData () {
-		grid.fill([{test: "um teste",other: "other aaaa"},{test: "um teste22222",other: "other 33333"}])
+		service.get({
+			url : "/author",
+			success: onLoadSuccess
+		})
+		
 	}
+	
+	function onLoadSuccess (data) {
+		grid.fill(data)
+	} 
 
 	return {
 		create : create,
