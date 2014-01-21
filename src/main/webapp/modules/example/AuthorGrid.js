@@ -5,9 +5,11 @@ define (["grid", "service"], function (grid, service){
 			placeAt: placeAt,
 			columns : [{label:"Name", width: 250, field : "name"}, 
 			           {label: "High", width: 50, field: "high"},
-			           {label: "Birth Day", width: 100, field: "birthDay"}]
-		})
+			           {label: "Birth Day", width: 100, field: "birthDay", }]
+		}, this)
 	}
+	
+	function onClick ()
 	
 	function loadData () {
 		service.get({
@@ -18,7 +20,7 @@ define (["grid", "service"], function (grid, service){
 	}
 	
 	function onLoadSuccess (data) {
-		grid.fill(data)
+		grid.fill(data);
 	} 
 
 	return {

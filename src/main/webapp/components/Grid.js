@@ -1,5 +1,6 @@
 define(function () {
-	var config = null;
+	var config = null
+		
 	function create (_config) {
 		config = _config
 		createTableTag()
@@ -41,11 +42,62 @@ define(function () {
 		var tr = document.createElement("tr")
 		for (var j = 0 ; j < config.columns.length ; j++) {
 			var td = document.createElement("td")
-			$(td).html(data[rowIndex][config.columns[j].field])
+			var content = createOtherCellContent(j, data[rowIndex]);
+	
+			if (content == null)
+				content = data[rowIndex][config.columns[j].field];
+			
+			$(td).html(content)
 			$(tr).append(td)
 		}
 		return tr
 	} 
+	
+	function createOtherCellContent (columnIndex, row) {
+		var columnConfig = config.columns[columnIndex]
+		var content = null
+		
+		if (isButton (columnIndex, columnConfig, row)) 
+			content = createButtonContent(columnIndex, columnConfig, row)
+		else if (isCustomContent(columnConfig.customContent))
+			content = getCustomContent(columnIndex, columnConfig, row)
+		return content
+	}
+	
+	function createButtonContent (columnIndex, columnConfig, row) {
+		var button = document.createElement("button")
+		button.className = "btn " + columnConfig.className;
+			button.innerHTML = getContentLabel(columnIndex, columnConfig, row)
+		$(button).on("click", function () { 
+			columnConfig.onClick(row) 
+		})
+		return button;
+	}
+	
+	function isButton (columnIndex, columnConfig, row) {
+		if (typeof columnConfig.isButton == 'function') 
+			return columnConfig.isButton (row, columnIndex)
+		else 
+			return columnConfig.isButton
+	}
+	
+	function getContentLabel (columnIndex, columnConfig, row) {
+		if (typeof columnConfig.contentLabel == 'function') 
+			return columnConfig.contentLabel (row, columnIndex)
+		else 
+			return columnConfig.contentLabel
+	}
+	
+	function isCustomContent (customContent) {
+		return typeof customContent == 'function' || customContent != null
+	}
+	
+	function getCustomContent (columnIndex, columnConfig, row) {
+		if (typeof columnConfig.customContent == 'function') 
+			return columnConfig.customContent (row, columnIndex)
+		else 
+			return columnConfig.customContent
+	}
 	
 	function clear () {
 		$("#"+config.idTable).find('tbody').remove();
